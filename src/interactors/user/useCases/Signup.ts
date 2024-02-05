@@ -1,5 +1,6 @@
 import { type UserRepository } from 'src/repositories/UserRepository'
 
+import NotAllowed from '../../../errors/NotAllowed'
 import { User, type UserData } from '../entity/User'
 
 export interface SignupDTO {
@@ -13,7 +14,7 @@ export class Signup {
 
   async execute(data: SignupDTO): Promise<User> {
     const userExists = await this.repository.findByEmail(data.email)
-    if (userExists) throw new Error('Email already exists')
+    if (userExists) throw new NotAllowed('Email already exists')
 
     const userData: Omit<UserData, 'id'> = {
       name: data.name,
@@ -23,6 +24,7 @@ export class Signup {
 
     const user = await this.repository.save(userData)
 
-    return new User(user)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return new User(user as unknown as any)
   }
 }
