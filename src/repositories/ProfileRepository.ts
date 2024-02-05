@@ -81,6 +81,12 @@ export class ProfileRepository implements Repository {
     })) as unknown as T
   }
 
+  async delete(profileId: string): Promise<void> {
+    await this.prismaClient.profileSchema.delete({
+      where: { id: profileId }
+    })
+  }
+
   async update(
     profileId: string,
     entity: Partial<ProfileData>

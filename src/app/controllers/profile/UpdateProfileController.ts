@@ -31,6 +31,6 @@ export class UpdateProfileController extends BaseController {
       }
     )
 
-    return response.status(201).send({ profile })
+    return response.status(200).send({ profile })
   }
 }
