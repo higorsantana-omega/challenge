@@ -44,7 +44,10 @@ describe('Signup', () => {
     expect(repository.findByEmail).toHaveBeenCalledWith(data.email)
 
     expect(repository.save).toHaveBeenCalledTimes(1)
-    expect(repository.save).toHaveBeenCalledWith(data)
+    expect(repository.save).toHaveBeenCalledWith({
+      ...data,
+      password: expect.any(String)
+    })
 
     expect(user).toBeInstanceOf(User)
   })
