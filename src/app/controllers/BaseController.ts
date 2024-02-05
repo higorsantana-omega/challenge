@@ -3,6 +3,7 @@ import { type Request, type Response } from 'express'
 import { type z } from 'zod'
 
 import { type Interactors } from '../../interactors'
+import Authentication from '../middlewares/Authentication'
 import HandleError from '../middlewares/HandleError'
 import ValidateRequest from '../middlewares/ValidateRequest'
 
@@ -16,6 +17,11 @@ export abstract class BaseController {
     } catch (error) {
       return HandleError.execute(error as Error, response)
     }
+  }
+
+  protected getUserId(request: Request): string {
+    const authentication = new Authentication()
+    return authentication.decodeAccessToken(request.headers.authorization)
   }
 
   protected abstract expectedRequest: z.ZodObject<
