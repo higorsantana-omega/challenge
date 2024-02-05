@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 import jwt from 'jsonwebtoken'
-import NotAuthorized from 'src/errors/NotAuthorized'
+
+import NotAuthorized from '../../errors/NotAuthorized'
 
 export default class Authentication {
   decodeAccessToken(accessToken: string | undefined): string {

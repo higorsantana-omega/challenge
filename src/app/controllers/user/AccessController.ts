@@ -1,6 +1,5 @@
-import Authentication from 'src/app/middlewares/Authentication'
-import { type User } from 'src/interactors/user/entity/User'
-
+import { type User } from '../../../interactors/user/entity/User'
+import Authentication from '../../middlewares/Authentication'
 import { BaseController, type Request, type Response } from '../BaseController'
 
 export abstract class AccessController extends BaseController {

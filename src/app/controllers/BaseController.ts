@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express'
-import { type Interactors } from 'src/interactors'
 
+import { type Interactors } from '../../interactors'
 import HandleError from '../middlewares/HandleError'
 
 export abstract class BaseController {
