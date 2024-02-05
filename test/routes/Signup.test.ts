@@ -25,8 +25,7 @@ describe('Signup route', () => {
       user: {
         id: expect.any(String),
         name: body.name,
-        email: body.email,
-        password: expect.any(String)
+        email: body.email
       },
       accessToken: expect.any(String)
     })

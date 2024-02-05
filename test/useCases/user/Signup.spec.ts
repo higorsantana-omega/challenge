@@ -49,7 +49,11 @@ describe('Signup', () => {
       password: expect.any(String)
     })
 
-    expect(user).toBeInstanceOf(User)
+    expect(user).toEqual({
+      id: expect.any(String),
+      name: data.name,
+      email: data.email
+    })
   })
 
   it('should return error if already exists user with email', async () => {
