@@ -48,4 +48,30 @@ describe('Signup', () => {
 
     expect(user).toBeInstanceOf(User)
   })
+
+  it('should return error if already exists user with email', async () => {
+    const data: SignupDTO = {
+      email: faker.internet.email(),
+      name: faker.internet.userName(),
+      password: 'test'
+    }
+
+    repository.findByEmail.mockImplementation(
+      async () =>
+        await Promise.resolve({
+          id: faker.string.uuid(),
+          createdAt: new Date(),
+          ...data
+        })
+    )
+
+    const promise = userInteractor.signup(data)
+
+    await expect(promise).rejects.toThrow('Email already exists')
+
+    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
+    expect(repository.findByEmail).toHaveBeenCalledWith(data.email)
+
+    expect(repository.save).toHaveBeenCalledTimes(0)
+  })
 })
