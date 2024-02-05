@@ -1,9 +1,12 @@
 import { type Response } from 'express'
-import NotAuthorized from 'src/errors/NotAuthorized'
+
+import NotAllowed from '../../errors/NotAllowed'
+import NotAuthorized from '../../errors/NotAuthorized'
 
 class HandleError {
   execute(err: Error, response: Response): Response {
-    if (err instanceof NotAuthorized) response.status(401)
+    if (err.name === NotAuthorized.name) response.status(401)
+    else if (err.name === NotAllowed.name) response.status(403)
     else {
       response.status(500)
     }
