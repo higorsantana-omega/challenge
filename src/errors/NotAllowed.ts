@@ -1,7 +1,7 @@
-export default class NotAuthorized extends Error {
+export default class NotAllowed extends Error {
   constructor(errors: unknown) {
     super()
-    this.name = 'NotAuthorized'
+    this.name = 'NotAllowed'
     this.message = errors as string
   }
 }
