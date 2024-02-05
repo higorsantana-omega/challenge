@@ -2,7 +2,7 @@ import { type UserRepository } from 'src/repositories/UserRepository'
 
 import NotAllowed from '../../../errors/NotAllowed'
 import toolbox from '../../../toolbox/toolbox'
-import { User, type UserData } from '../entity/User'
+import { type ShowUserDTO, User, type UserData } from '../entity/User'
 
 export interface SignupDTO {
   name: string
@@ -13,7 +13,7 @@ export interface SignupDTO {
 export class Signup {
   constructor(private readonly repository: UserRepository) {}
 
-  async execute(data: SignupDTO): Promise<User> {
+  async execute(data: SignupDTO): Promise<ShowUserDTO> {
     const userExists = await this.repository.findByEmail(data.email)
     if (userExists) throw new NotAllowed('Email already exists')
 
@@ -23,9 +23,15 @@ export class Signup {
       password: toolbox.encrypt(data.password)
     }
 
-    const user = await this.repository.save(userData)
+    const userCreated = await this.repository.save(userData)
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return new User(user as unknown as any)
+    const user = new User(userCreated as unknown as any)
+
+    return {
+      id: user.getId(),
+      name: user.getName(),
+      email: user.getEmail()
+    }
   }
 }
