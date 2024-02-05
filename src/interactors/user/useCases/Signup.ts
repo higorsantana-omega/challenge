@@ -1,6 +1,7 @@
 import { type UserRepository } from 'src/repositories/UserRepository'
 
 import NotAllowed from '../../../errors/NotAllowed'
+import toolbox from '../../../toolbox/toolbox'
 import { User, type UserData } from '../entity/User'
 
 export interface SignupDTO {
@@ -19,7 +20,7 @@ export class Signup {
     const userData: Omit<UserData, 'id'> = {
       name: data.name,
       email: data.email,
-      password: data.password
+      password: toolbox.encrypt(data.password)
     }
 
     const user = await this.repository.save(userData)
