@@ -1,11 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 
+import { AddressRepository } from './AddressRepository'
 import { ProfileRepository } from './ProfileRepository'
 import { UserRepository } from './UserRepository'
 
 export interface Repositories {
   account: UserRepository
   profile: ProfileRepository
+  address: AddressRepository
 }
 
 export function createRepositories(): Repositories {
@@ -13,6 +15,7 @@ export function createRepositories(): Repositories {
 
   return {
     account: new UserRepository(client),
-    profile: new ProfileRepository(client)
+    profile: new ProfileRepository(client),
+    address: new AddressRepository(client)
   }
 }
