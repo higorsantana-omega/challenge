@@ -15,19 +15,20 @@
         "sourceType": "module"
     },
     "rules": {
-    "import/order": [
-        "error",
-        {
-            "groups": [
-            ["builtin", "external"],
-            ["internal", "parent", "sibling", "index"]
-            ],
-            "newlines-between": "always",
-            "alphabetize": {
-            "order": "asc",
-            "caseInsensitive": true
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                ["builtin", "external"],
+                ["internal", "parent", "sibling", "index"]
+                ],
+                "newlines-between": "always",
+                "alphabetize": {
+                "order": "asc",
+                "caseInsensitive": true
+                }
             }
-        }
-    ]
+        ]
   }
 }
