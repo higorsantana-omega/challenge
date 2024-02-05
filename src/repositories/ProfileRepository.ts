@@ -2,6 +2,7 @@
 import { type PrismaClient, type ProfileSchema } from '@prisma/client'
 import {
   Profile,
+  type ProfileData,
   type ProfileType
 } from 'src/interactors/profile/entity/Profile'
 
@@ -10,10 +11,26 @@ import { type Repository } from './Repository'
 export class ProfileRepository implements Repository {
   constructor(private readonly prismaClient: PrismaClient) {}
 
-  async findById<T>(id: string): Promise<T> {
-    return (await this.prismaClient.profileSchema.findFirst({
+  async findById<Profile>(id: string): Promise<Profile> {
+    const profile = await this.prismaClient.profileSchema.findFirst({
       where: { id }
-    })) as unknown as T
+    })
+
+    return (
+      profile
+        ? new Profile({
+            id: profile.id,
+            userId: profile.userId,
+            name: profile.name,
+            email: profile.email,
+            cellphone: profile.cellphone,
+            cpf: profile.cpf,
+            phone: profile.phone,
+            type: profile.type,
+            cnpj: profile?.cnpj ? profile.cnpj : undefined
+          })
+        : null
+    ) as Profile
   }
 
   async findByEmail(email: string) {
@@ -62,5 +79,26 @@ export class ProfileRepository implements Repository {
     return (await this.prismaClient.profileSchema.create({
       data: entity as ProfileSchema
     })) as unknown as T
+  }
+
+  async update(
+    profileId: string,
+    entity: Partial<ProfileData>
+  ): Promise<Profile> {
+    const profile = await this.prismaClient.profileSchema.update({
+      data: entity,
+      where: { id: profileId }
+    })
+    return new Profile({
+      id: profile.id,
+      userId: profile.userId,
+      name: profile.name,
+      email: profile.email,
+      cellphone: profile.cellphone,
+      cpf: profile.cpf,
+      phone: profile.phone,
+      type: profile.type,
+      cnpj: profile?.cnpj ? profile.cnpj : undefined
+    })
   }
 }

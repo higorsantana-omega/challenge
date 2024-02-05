@@ -39,6 +39,10 @@ function createControllers(routes: Route[], interactors: Interactors): Router {
         router.put(route.url, callback)
         break
 
+      case 'PATCH':
+        router.patch(route.url, callback)
+        break
+
       case 'DELETE':
         router.delete(route.url, callback)
         break

@@ -16,14 +16,14 @@ export interface ProfileData {
 
 export class Profile {
   private readonly id?: string
-  private readonly userId: string
+  readonly userId: string
   private readonly name: string
-  private readonly email: string
+  readonly email: string
   private readonly cellphone: string
   private readonly phone: string
   private readonly cnpj?: string
   private readonly cpf: string
-  private readonly type: ProfileType
+  readonly type: ProfileType
 
   constructor({
     id,
