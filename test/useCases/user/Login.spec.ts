@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { mock, type MockProxy } from 'jest-mock-extended'
 
 import { UserInteractor } from '@/interactors/user'
-import { type UserData } from '@/interactors/user/entity/User'
+import { User, type UserData } from '@/interactors/user/entity/User'
 import { type LoginDTO } from '@/interactors/user/useCases/Login'
 import { type UserRepository } from '@/repositories/UserRepository'
 import toolbox from '@/toolbox/toolbox'
@@ -27,8 +27,8 @@ describe('Login', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    repository.findByEmail.mockImplementation(
-      async () => await Promise.resolve({ ...user, createdAt: new Date() })
+    repository.findOnyBy.mockImplementation(
+      async () => await Promise.resolve(new User({ ...user }))
     )
   })
 
@@ -46,8 +46,8 @@ describe('Login', () => {
       email: user.email
     })
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(user.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ email: user.email })
   })
 
   it('should throw error user not exists', async () => {
@@ -56,16 +56,14 @@ describe('Login', () => {
       password: 'test2'
     }
 
-    repository.findByEmail.mockImplementation(
-      async () => await Promise.resolve(null)
-    )
+    repository.findOnyBy.mockImplementation()
 
     const promise = userInteractor.login(data)
 
     await expect(promise).rejects.toThrow('User not found')
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(user.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ email: user.email })
   })
 
   it('should throw error if password is not same', async () => {
@@ -78,7 +76,7 @@ describe('Login', () => {
 
     await expect(promise).rejects.toThrow('Incorrect password')
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(user.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ email: user.email })
   })
 })

@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker'
 import { mock, type MockProxy } from 'jest-mock-extended'
 
 import { UserInteractor } from '@/interactors/user'
+import { User } from '@/interactors/user/entity/User'
 import { type SignupDTO } from '@/interactors/user/useCases/Signup'
 import { type UserRepository } from '@/repositories/UserRepository'
 
@@ -22,13 +23,14 @@ describe('Signup', () => {
   it('should create an account', async () => {
     repository.save.mockImplementation(
       async (value: any) =>
-        await Promise.resolve({
-          id: faker.string.uuid(),
-          name: value.name,
-          email: value.email,
-          password: value.password,
-          createdAt: new Date()
-        })
+        await Promise.resolve(
+          new User({
+            id: faker.string.uuid(),
+            name: value.name,
+            email: value.email,
+            password: value.password
+          })
+        )
     )
 
     const data: SignupDTO = {
@@ -39,8 +41,8 @@ describe('Signup', () => {
 
     const user = await userInteractor.signup(data)
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(data.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ email: data.email })
 
     expect(repository.save).toHaveBeenCalledTimes(1)
     expect(repository.save).toHaveBeenCalledWith({
@@ -62,21 +64,22 @@ describe('Signup', () => {
       password: 'test'
     }
 
-    repository.findByEmail.mockImplementation(
+    repository.findOnyBy.mockImplementation(
       async () =>
-        await Promise.resolve({
-          id: faker.string.uuid(),
-          createdAt: new Date(),
-          ...data
-        })
+        await Promise.resolve(
+          new User({
+            id: faker.string.uuid(),
+            ...data
+          })
+        )
     )
 
     const promise = userInteractor.signup(data)
 
     await expect(promise).rejects.toThrow('Email already exists')
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(data.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ email: data.email })
 
     expect(repository.save).toHaveBeenCalledTimes(0)
   })

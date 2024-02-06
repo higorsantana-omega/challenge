@@ -33,22 +33,18 @@ describe('ViewProfile', () => {
       type: 'JURIDICAL'
     } as unknown as CreateProfileDTO
 
-    repository.findByEmail.mockImplementation(
-      async () => await Promise.resolve(null)
-    )
-    repository.findByDocument.mockImplementation(
-      async () => await Promise.resolve(null)
-    )
+    repository.findOnyBy.mockImplementation()
+    repository.findByDocument.mockImplementation()
     repository.save.mockImplementation(
-      async () => await Promise.resolve({ ...data, id })
+      async () => await Promise.resolve(new Profile({ ...data, id }))
     )
 
     const profile = await profileInteractor.create(data)
 
     expect(profile).toEqual({ ...data, id })
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(data.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ email: data.email })
 
     expect(repository.findByDocument).toHaveBeenCalledTimes(1)
     expect(repository.findByDocument).toHaveBeenCalledWith({
@@ -72,28 +68,31 @@ describe('ViewProfile', () => {
       type: 'JURIDICAL'
     } as unknown as CreateProfileDTO
 
-    repository.findByEmail.mockImplementation(
+    repository.findOnyBy.mockImplementation(
       async () =>
-        await Promise.resolve({
-          cellphone: data.cellphone,
-          cnpj: data.cnpj!,
-          cpf: data.cpf,
-          createdAt: new Date(),
-          email: data.email,
-          id,
-          name: data.name,
-          phone: data.phone,
-          type: data.type,
-          userId: data.userId
-        })
+        await Promise.resolve(
+          new Profile({
+            cellphone: data.cellphone,
+            cnpj: data.cnpj!,
+            cpf: data.cpf,
+            email: data.email,
+            id,
+            name: data.name,
+            phone: data.phone,
+            type: data.type,
+            userId: data.userId
+          })
+        )
     )
 
     const promise = profileInteractor.create(data)
 
     await expect(promise).rejects.toThrow('Email already exists')
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(data.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({
+      email: data.email
+    })
 
     expect(repository.findByDocument).toHaveBeenCalledTimes(0)
     expect(repository.save).toHaveBeenCalledTimes(0)
@@ -112,9 +111,7 @@ describe('ViewProfile', () => {
       type: 'JURIDICAL'
     } as unknown as CreateProfileDTO
 
-    repository.findByEmail.mockImplementation(
-      async () => await Promise.resolve(null)
-    )
+    repository.findOnyBy.mockImplementation()
 
     repository.findByDocument.mockImplementation(
       async () =>
@@ -137,8 +134,8 @@ describe('ViewProfile', () => {
 
     await expect(promise).rejects.toThrow('CNPJ already exists')
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(data.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ email: data.email })
 
     expect(repository.findByDocument).toHaveBeenCalledTimes(1)
     expect(repository.findByDocument).toHaveBeenCalledWith({
@@ -161,9 +158,7 @@ describe('ViewProfile', () => {
       type: 'INDIVIDUAL'
     } as unknown as CreateProfileDTO
 
-    repository.findByEmail.mockImplementation(
-      async () => await Promise.resolve(null)
-    )
+    repository.findOnyBy.mockImplementation()
 
     repository.findByDocument.mockImplementation(
       async () =>
@@ -185,8 +180,8 @@ describe('ViewProfile', () => {
 
     await expect(promise).rejects.toThrow('CPF already exists')
 
-    expect(repository.findByEmail).toHaveBeenCalledTimes(1)
-    expect(repository.findByEmail).toHaveBeenCalledWith(data.email)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ email: data.email })
 
     expect(repository.findByDocument).toHaveBeenCalledTimes(1)
     expect(repository.findByDocument).toHaveBeenCalledWith({

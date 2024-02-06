@@ -3,6 +3,7 @@ import { mock, type MockProxy } from 'jest-mock-extended'
 
 import { ProfileInteractor } from '@/interactors/profile'
 import { type ProfileRepository } from '@/repositories/ProfileRepository'
+import { Profile, ProfileType } from '@/interactors/profile/entity/Profile'
 
 describe('ViewProfile', () => {
   let profileInteractor: ProfileInteractor
@@ -28,19 +29,19 @@ describe('ViewProfile', () => {
       phone: '(11) 3344-6360',
       cnpj: '68481958000185',
       cpf: '57536858469',
-      type: 'JURIDICAL'
+      type: 'JURIDICAL' as ProfileType
     }
 
-    repository.findById.mockImplementation(
-      async () => await Promise.resolve(data)
+    repository.findOnyBy.mockImplementation(
+      async () => await Promise.resolve(new Profile(data))
     )
 
     const profile = await profileInteractor.view(data.userId, data.id)
 
     expect(profile).toEqual(data)
 
-    expect(repository.findById).toHaveBeenCalledTimes(1)
-    expect(repository.findById).toHaveBeenCalledWith(data.id)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ id: data.id })
   })
 
   it('should throw error if profile not exists', async () => {
@@ -56,16 +57,14 @@ describe('ViewProfile', () => {
       type: 'JURIDICAL'
     }
 
-    repository.findById.mockImplementation(
-      async () => null
-    )
+    repository.findOnyBy.mockImplementation()
 
     const promise = profileInteractor.view(data.userId, 'not-exists')
 
     await expect(promise).rejects.toThrow('Profile not found')
 
-    expect(repository.findById).toHaveBeenCalledTimes(1)
-    expect(repository.findById).toHaveBeenCalledWith('not-exists')
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ id: 'not-exists' })
   })
 
   it('should throw error if profile not same userId', async () => {
@@ -78,18 +77,18 @@ describe('ViewProfile', () => {
       phone: '(11) 3344-6360',
       cnpj: '68481958000185',
       cpf: '57536858469',
-      type: 'JURIDICAL'
+      type: 'JURIDICAL' as ProfileType
     }
 
-    repository.findById.mockImplementation(
-      async () => await Promise.resolve(data)
+    repository.findOnyBy.mockImplementation(
+      async () => await Promise.resolve(new Profile(data))
     )
 
     const promise = profileInteractor.view('not-exists', data.id)
 
     await expect(promise).rejects.toThrow('Profile not found')
 
-    expect(repository.findById).toHaveBeenCalledTimes(1)
-    expect(repository.findById).toHaveBeenCalledWith(data.id)
+    expect(repository.findOnyBy).toHaveBeenCalledTimes(1)
+    expect(repository.findOnyBy).toHaveBeenCalledWith({ id: data.id })
   })
 })
