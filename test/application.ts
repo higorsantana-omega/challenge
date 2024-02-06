@@ -1,8 +1,8 @@
 import { type Express } from 'express'
 
-import { createApp } from '../src/app'
-import { type Interactors, createInteractors } from '../src/interactors'
-import { type Repositories, createRepositories } from '../src/repositories'
+import { createApp } from '@/app'
+import { type Interactors, createInteractors } from '@/interactors'
+import { type Repositories, createRepositories } from '@/repositories'
 
 export default class Application {
   public repositories: Repositories

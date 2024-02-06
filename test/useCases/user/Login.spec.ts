@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker'
 import { mock, type MockProxy } from 'jest-mock-extended'
 
-import { UserInteractor } from '../../../src/interactors/user'
-import { type UserData } from '../../../src/interactors/user/entity/User'
-import { type LoginDTO } from '../../../src/interactors/user/useCases/Login'
-import { type UserRepository } from '../../../src/repositories/UserRepository'
-import toolbox from '../../../src/toolbox/toolbox'
+import { UserInteractor } from '@/interactors/user'
+import { type UserData } from '@/interactors/user/entity/User'
+import { type LoginDTO } from '@/interactors/user/useCases/Login'
+import { type UserRepository } from '@/repositories/UserRepository'
+import toolbox from '@/toolbox/toolbox'
 
 describe('Login', () => {
   let userInteractor: UserInteractor

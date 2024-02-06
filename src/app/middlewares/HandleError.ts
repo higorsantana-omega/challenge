@@ -1,9 +1,9 @@
 import { type Response } from 'express'
 
-import EntityNotFound from '../../errors/EntityNotFound'
-import IncompleteRequest from '../../errors/IncompleteRequest'
-import NotAllowed from '../../errors/NotAllowed'
-import NotAuthorized from '../../errors/NotAuthorized'
+import EntityNotFound from '@/errors/EntityNotFound'
+import IncompleteRequest from '@/errors/IncompleteRequest'
+import NotAllowed from '@/errors/NotAllowed'
+import NotAuthorized from '@/errors/NotAuthorized'
 
 class HandleError {
   execute(err: Error, response: Response): Response {

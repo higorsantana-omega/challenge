@@ -1,8 +1,9 @@
-import { type CreateAddressDTO } from 'src/interactors/address/useCases/CreateAddress'
-import { type CreateProfileDTO } from 'src/interactors/profile/useCases/CreateProfile'
 import { z } from 'zod'
 
 import { type Response, type Request, BaseController } from '../BaseController'
+
+import { type CreateAddressDTO } from '@/interactors/address/useCases/CreateAddress'
+import { type CreateProfileDTO } from '@/interactors/profile/useCases/CreateProfile'
 
 export class CreateProfileController extends BaseController {
   protected expectedRequest = z.object({

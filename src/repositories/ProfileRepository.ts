@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type PrismaClient, type ProfileSchema } from '@prisma/client'
+
+import { type Repository } from './Repository'
+
 import {
   Profile,
   type ProfileData,
   type ProfileType
-} from 'src/interactors/profile/entity/Profile'
-
-import { type Repository } from './Repository'
+} from '@/interactors/profile/entity/Profile'
 
 export class ProfileRepository implements Repository {
   constructor(private readonly prismaClient: PrismaClient) {}

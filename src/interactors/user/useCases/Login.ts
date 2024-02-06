@@ -1,8 +1,9 @@
-import EntityNotFound from '../../../errors/EntityNotFound'
-import NotAuthorized from '../../../errors/NotAuthorized'
-import { type UserRepository } from '../../../repositories/UserRepository'
-import toolbox from '../../../toolbox/toolbox'
 import { type ShowUserDTO } from '../entity/User'
+
+import EntityNotFound from '@/errors/EntityNotFound'
+import NotAuthorized from '@/errors/NotAuthorized'
+import { type UserRepository } from '@/repositories/UserRepository'
+import toolbox from '@/toolbox/toolbox'
 
 export interface LoginDTO {
   email: string

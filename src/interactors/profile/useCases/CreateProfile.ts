@@ -1,6 +1,7 @@
-import NotAllowed from '../../../errors/NotAllowed'
-import { type ProfileRepository } from '../../../repositories/ProfileRepository'
 import { Profile, type ProfileData } from '../entity/Profile'
+
+import NotAllowed from '@/errors/NotAllowed'
+import { type ProfileRepository } from '@/repositories/ProfileRepository'
 
 export interface CreateProfileDTO extends ProfileData {}
 

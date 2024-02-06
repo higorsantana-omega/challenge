@@ -1,7 +1,7 @@
 import { type Request } from 'express'
 import { type z, type ZodError } from 'zod'
 
-import IncompleteRequest from '../../errors/IncompleteRequest'
+import IncompleteRequest from '@/errors/IncompleteRequest'
 
 class ValidateRequest {
   execute(

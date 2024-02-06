@@ -1,7 +1,8 @@
-import EntityNotFound from '../../../errors/EntityNotFound'
-import NotAllowed from '../../../errors/NotAllowed'
-import { type ProfileRepository } from '../../../repositories/ProfileRepository'
 import { type Profile, type ProfileData } from '../entity/Profile'
+
+import EntityNotFound from '@/errors/EntityNotFound'
+import NotAllowed from '@/errors/NotAllowed'
+import { type ProfileRepository } from '@/repositories/ProfileRepository'
 
 export type UpdateProfileDTO = Partial<Omit<ProfileData, 'id' | 'userId'>>
 

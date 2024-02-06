@@ -1,6 +1,6 @@
-import { type AddressRepository } from 'src/repositories/AddressRepository'
-
 import { Address, type AddressData } from '../entity/Address'
+
+import { type AddressRepository } from '@/repositories/AddressRepository'
 
 export type CreateAddressDTO = Omit<AddressData, 'id'>
 

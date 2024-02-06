@@ -2,10 +2,10 @@
 import { type Request, type Response } from 'express'
 import { type z } from 'zod'
 
-import { type Interactors } from '../../interactors'
-import Authentication from '../middlewares/Authentication'
-import HandleError from '../middlewares/HandleError'
-import ValidateRequest from '../middlewares/ValidateRequest'
+import Authentication from '@/app/middlewares/Authentication'
+import HandleError from '@/app/middlewares/HandleError'
+import ValidateRequest from '@/app/middlewares/ValidateRequest'
+import { type Interactors } from '@/interactors'
 
 export abstract class BaseController {
   constructor(protected interactors: Interactors) {}

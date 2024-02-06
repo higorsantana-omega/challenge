@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { mock, type MockProxy } from 'jest-mock-extended'
 
-import { ProfileInteractor } from '../../../src/interactors/profile'
-import { type ProfileRepository } from '../../../src/repositories/ProfileRepository'
+import { ProfileInteractor } from '@/interactors/profile'
+import { type ProfileRepository } from '@/repositories/ProfileRepository'
 
 describe('ViewProfile', () => {
   let profileInteractor: ProfileInteractor

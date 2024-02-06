@@ -1,9 +1,9 @@
-import { type UserRepository } from 'src/repositories/UserRepository'
-
 import { type ShowUserDTO } from './entity/User'
 import { Login, type LoginDTO } from './useCases/Login'
 import { Signup, type SignupDTO } from './useCases/Signup'
 import { BaseInteractor } from '../BaseInteractor'
+
+import { type UserRepository } from '@/repositories/UserRepository'
 
 export class UserInteractor extends BaseInteractor<UserRepository> {
   async signup(data: SignupDTO): Promise<ShowUserDTO> {

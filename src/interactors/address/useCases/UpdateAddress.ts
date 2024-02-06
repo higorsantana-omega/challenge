@@ -1,7 +1,7 @@
-import EntityNotFound from 'src/errors/EntityNotFound'
-import { type AddressRepository } from 'src/repositories/AddressRepository'
-
 import { type Address, type AddressData } from '../entity/Address'
+
+import EntityNotFound from '@/errors/EntityNotFound'
+import { type AddressRepository } from '@/repositories/AddressRepository'
 
 export type UpdateAddressDTO = Partial<Omit<AddressData, 'id' | 'profileId'>>
 

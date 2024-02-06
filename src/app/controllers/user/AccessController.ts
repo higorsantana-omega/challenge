@@ -1,6 +1,7 @@
-import { type ShowUserDTO } from '../../../interactors/user/entity/User'
-import Authentication from '../../middlewares/Authentication'
 import { BaseController, type Request, type Response } from '../BaseController'
+
+import Authentication from '@/app/middlewares/Authentication'
+import { type ShowUserDTO } from '@/interactors/user/entity/User'
 
 export abstract class AccessController extends BaseController {
   private readonly authentication = new Authentication()

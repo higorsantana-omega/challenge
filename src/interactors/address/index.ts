@@ -1,10 +1,10 @@
-import { type AddressRepository } from 'src/repositories/AddressRepository'
-
 import { type Address } from './entity/Address'
 import { CreateAddress, type CreateAddressDTO } from './useCases/CreateAddress'
 import { UpdateAddress, type UpdateAddressDTO } from './useCases/UpdateAddress'
 import { ViewAddress } from './useCases/ViewAddress'
 import { BaseInteractor } from '../BaseInteractor'
+
+import { type AddressRepository } from '@/repositories/AddressRepository'
 
 export class AddressInteractor extends BaseInteractor<AddressRepository> {
   async create(data: CreateAddressDTO): Promise<Address> {

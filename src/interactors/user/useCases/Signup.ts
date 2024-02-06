@@ -1,8 +1,8 @@
-import { type UserRepository } from 'src/repositories/UserRepository'
-
-import NotAllowed from '../../../errors/NotAllowed'
-import toolbox from '../../../toolbox/toolbox'
 import { type ShowUserDTO, User, type UserData } from '../entity/User'
+
+import NotAllowed from '@/errors/NotAllowed'
+import { type UserRepository } from '@/repositories/UserRepository'
+import toolbox from '@/toolbox/toolbox'
 
 export interface SignupDTO {
   name: string

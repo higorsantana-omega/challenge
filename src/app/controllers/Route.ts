@@ -1,6 +1,6 @@
-import { type Interactors } from 'src/interactors'
-
 import { type BaseController } from './BaseController'
+
+import { type Interactors } from '@/interactors'
 
 export default interface Route {
   url: string

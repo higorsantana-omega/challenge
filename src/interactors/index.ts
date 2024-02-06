@@ -1,8 +1,8 @@
-import { type Repositories } from 'src/repositories'
-
 import { AddressInteractor } from './address'
 import { ProfileInteractor } from './profile'
 import { UserInteractor } from './user'
+
+import { type Repositories } from '@/repositories'
 
 export type Interactors = ReturnType<typeof createInteractors>
 

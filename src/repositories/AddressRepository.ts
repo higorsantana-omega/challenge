@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type AddressSchema, type PrismaClient } from '@prisma/client'
-import {
-  Address,
-  type AddressData
-} from 'src/interactors/address/entity/Address'
 
 import { type Repository } from './Repository'
+
+import { Address, type AddressData } from '@/interactors/address/entity/Address'
 
 export class AddressRepository implements Repository {
   constructor(private readonly prismaClient: PrismaClient) {}

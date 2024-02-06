@@ -1,6 +1,7 @@
-import EntityNotFound from '../../../errors/EntityNotFound'
-import { type ProfileRepository } from '../../../repositories/ProfileRepository'
 import { type Profile, type ProfileData } from '../entity/Profile'
+
+import EntityNotFound from '@/errors/EntityNotFound'
+import { type ProfileRepository } from '@/repositories/ProfileRepository'
 
 export interface CreateProfileDTO extends ProfileData {}
 

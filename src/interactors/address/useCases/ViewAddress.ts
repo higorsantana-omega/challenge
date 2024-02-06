@@ -1,6 +1,6 @@
-import { type AddressRepository } from 'src/repositories/AddressRepository'
-
 import { type Address } from '../entity/Address'
+
+import { type AddressRepository } from '@/repositories/AddressRepository'
 
 export class ViewAddress {
   constructor(private readonly repository: AddressRepository) {}

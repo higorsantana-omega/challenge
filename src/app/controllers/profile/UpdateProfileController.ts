@@ -1,9 +1,10 @@
-import { type Address } from 'src/interactors/address/entity/Address'
-import { type CreateAddressDTO } from 'src/interactors/address/useCases/CreateAddress'
-import { type UpdateAddressDTO } from 'src/interactors/address/useCases/UpdateAddress'
 import { z } from 'zod'
 
 import { type Response, type Request, BaseController } from '../BaseController'
+
+import { type Address } from '@/interactors/address/entity/Address'
+import { type CreateAddressDTO } from '@/interactors/address/useCases/CreateAddress'
+import { type UpdateAddressDTO } from '@/interactors/address/useCases/UpdateAddress'
 
 export class UpdateProfileController extends BaseController {
   protected expectedRequest = z.object({
