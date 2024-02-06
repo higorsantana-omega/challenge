@@ -2,15 +2,18 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { type Request, type Response, Router } from 'express'
 import { type Interactors } from 'src/interactors'
+import swaggerUi from 'swagger-ui-express'
 
 import routes from './controllers'
 import type Route from './controllers/Route'
+import swaggerFile from '../../docs/swagger.json'
 
 export function createApp(interactors: Interactors) {
   const app = express()
 
   app.use(express.json())
 
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
   app.use('/api/v1', createControllers(routes, interactors))
   app.get('/ping', (req, res) => res.send('pong'))
 

@@ -1,0 +1,426 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Documentation",
+    "description": "This is an API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/signup": {
+      "post": {
+        "tags": ["Signup"],
+        "summary": "Signup user",
+        "description": "Signup user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success singup",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "a6439ded-23b5-49a5-9989-06f67d2d8f46"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Test"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "hijmfgor.s@gmail.com"
+                        }
+                      }
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiJ9.YTY0MzlkZWQtMjNiNS00OWE1LTk5ODktMDZmNjdkMmQ4ZjQ2.4Jk6t7mbSOicgna8zj7rVhtMsm6iDbRI1WaC-7d9v6Q"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Email already exist"
+          }
+        }
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Login user",
+        "description": "Login user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "a6439ded-23b5-49a5-9989-06f67d2d8f46"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Test"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "hijmfgor.s@gmail.com"
+                        }
+                      }
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiJ9.YTY0MzlkZWQtMjNiNS00OWE1LTk5ODktMDZmNjdkMmQ4ZjQ2.4Jk6t7mbSOicgna8zj7rVhtMsm6iDbRI1WaC-7d9v6Q"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Incorrect password"
+          },
+          "404": {
+            "description": "Account not exists"
+          }
+        }
+      }
+    },
+    "/api/v1/profile": {
+      "post": {
+        "tags": ["Create Profile"],
+        "summary": "Create an profile",
+        "description": "Create an profile",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profile": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "Profile 1"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "email@mail.com"
+                      },
+                      "cellphone": {
+                        "type": "string",
+                        "example": "(11) 3344-6360"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "(11) 3344-6360"
+                      },
+                      "cpf": {
+                        "type": "string",
+                        "example": "57536858469"
+                      },
+                      "cnpj": {
+                        "type": "string",
+                        "example": "68481958000185"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["JURIDICAL", "INDIVIDUAL"],
+                        "example": "JURIDICAL"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "403": {
+            "description": "Email or CPF or CNPJ already exists"
+          }
+        }
+      }
+    },
+    "/api/v1/profile/:profileId": {
+      "post": {
+        "tags": ["Update Profile"],
+        "summary": "Update an profile",
+        "description": "Update an profile",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profile": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "Profile 1"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "email@mail.com"
+                      },
+                      "cellphone": {
+                        "type": "string",
+                        "example": "(11) 3344-6360"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "(11) 3344-6360"
+                      },
+                      "cpf": {
+                        "type": "string",
+                        "example": "57536858469"
+                      },
+                      "cnpj": {
+                        "type": "string",
+                        "example": "68481958000185"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["JURIDICAL", "INDIVIDUAL"],
+                        "example": "JURIDICAL"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated"
+          },
+          "403": {
+            "description": "Email or CPF or CNPJ already exists"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Get Profile"],
+        "summary": "Get an profile",
+        "description": "Get an profile",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get an profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "profile": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "f9905553-c57f-477a-a804-e98540171da9"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "a6439ded-23b5-49a5-9989-06f67d2d8f46"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Profile 1"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "fakedfdr4@mail.com"
+                        },
+                        "cellphone": {
+                          "type": "string",
+                          "example": "1199999"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "example": "19999"
+                        },
+                        "cnpj": {
+                          "type": "string",
+                          "example": "1111111111112224"
+                        },
+                        "cpf": {
+                          "type": "string",
+                          "example": "111111111111"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": ["JURIDICAL"],
+                          "example": "JURIDICAL"
+                        }
+                      }
+                    },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "6407da09-330c-4875-8970-d7a8a7587aea"
+                        },
+                        "profileId": {
+                          "type": "string",
+                          "example": "f9905553-c57f-477a-a804-e98540171da9"
+                        },
+                        "cep": {
+                          "type": "string",
+                          "example": "03546010"
+                        },
+                        "city": {
+                          "type": "string",
+                          "example": "SP"
+                        },
+                        "complement": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "neighborhood": {
+                          "type": "string",
+                          "example": "sp"
+                        },
+                        "number": {
+                          "type": "string",
+                          "example": "160"
+                        },
+                        "state": {
+                          "type": "string",
+                          "example": "sp"
+                        },
+                        "street": {
+                          "type": "string",
+                          "example": "Rua teste"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Delete Profile"],
+        "summary": "Delete an profile",
+        "description": "Delete an profile",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          }
+        }
+      }
+    }
+  }
+}
+

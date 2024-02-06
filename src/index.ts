@@ -7,7 +7,7 @@ async function main(): Promise<void> {
 
   const repositories = createRepositories()
   const interactors = createInteractors(repositories)
-  const app = await createApp(interactors)
+  const app = createApp(interactors)
 
   app.listen(port, () => {
     console.log(`Escutando na porta ${port}`)
