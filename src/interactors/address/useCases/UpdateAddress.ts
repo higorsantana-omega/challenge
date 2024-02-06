@@ -9,7 +9,7 @@ export class UpdateAddress {
   constructor(private readonly repository: AddressRepository) {}
 
   async execute(addressId: string, data: UpdateAddressDTO): Promise<Address> {
-    const addressExists = await this.repository.findById(addressId)
+    const addressExists = await this.repository.findOnyBy({ id: addressId })
     if (!addressExists) throw new EntityNotFound('Address')
 
     const address = await this.repository.update(addressId, data)

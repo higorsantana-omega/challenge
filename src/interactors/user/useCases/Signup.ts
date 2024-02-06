@@ -14,7 +14,7 @@ export class Signup {
   constructor(private readonly repository: UserRepository) {}
 
   async execute(data: SignupDTO): Promise<ShowUserDTO> {
-    const userExists = await this.repository.findByEmail(data.email)
+    const userExists = await this.repository.findOnyBy({ email: data.email })
     if (userExists) throw new NotAllowed('Email already exists')
 
     const userData: Omit<UserData, 'id'> = {
@@ -23,10 +23,7 @@ export class Signup {
       password: toolbox.encrypt(data.password)
     }
 
-    const userCreated = await this.repository.save(userData)
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const user = new User(userCreated as unknown as any)
+    const user = await this.repository.save(new User(userData as UserData))
 
     return {
       id: user.getId(),

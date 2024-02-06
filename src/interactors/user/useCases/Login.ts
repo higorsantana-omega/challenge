@@ -14,16 +14,16 @@ export class Login {
   constructor(private readonly repository: UserRepository) {}
 
   async execute(data: LoginDTO): Promise<ShowUserDTO> {
-    const user = await this.repository.findByEmail(data.email)
+    const user = await this.repository.findOnyBy({ email: data.email })
     if (!user) throw new EntityNotFound('User')
 
-    const compareHash = toolbox.hashCompare(user.password, data.password)
+    const compareHash = toolbox.hashCompare(user.getPassword(), data.password)
     if (!compareHash) throw new NotAuthorized('Incorrect password')
 
     const showAccount: ShowUserDTO = {
-      id: user.id,
-      name: user.name,
-      email: user.email
+      id: user.getId(),
+      name: user.getName(),
+      email: user.getEmail()
     }
 
     return showAccount

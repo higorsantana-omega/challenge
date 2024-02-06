@@ -1,4 +1,4 @@
-export interface Repository {
-  findById: <T>(id: string) => Promise<T>
-  save: <T>(entity: T) => Promise<T>
+export interface Repository<T, QueryableFields> {
+  save: (entity: T) => Promise<T>
+  findOnyBy: (fields: Partial<QueryableFields>) => Promise<T | undefined>
 }

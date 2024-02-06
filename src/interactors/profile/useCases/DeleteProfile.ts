@@ -1,4 +1,4 @@
-import { type Profile, type ProfileData } from '../entity/Profile'
+import { type ProfileData } from '../entity/Profile'
 
 import EntityNotFound from '@/errors/EntityNotFound'
 import { type ProfileRepository } from '@/repositories/ProfileRepository'
@@ -9,7 +9,7 @@ export class DeleteProfile {
   constructor(private readonly repository: ProfileRepository) {}
 
   async execute(userId: string, profileId: string): Promise<void> {
-    const profile = await this.repository.findById<Profile>(profileId)
+    const profile = await this.repository.findOnyBy({ id: profileId })
     if (!profile) throw new EntityNotFound('Profile')
 
     if (profile.userId !== userId) {

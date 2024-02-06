@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type PrismaClient, type ProfileSchema } from '@prisma/client'
+import {
+  type Prisma,
+  type PrismaClient,
+  type ProfileSchema
+} from '@prisma/client'
 
 import { type Repository } from './Repository'
 
@@ -9,34 +13,26 @@ import {
   type ProfileType
 } from '@/interactors/profile/entity/Profile'
 
-export class ProfileRepository implements Repository {
-  constructor(private readonly prismaClient: PrismaClient) {}
+type QueryableFields = Prisma.$ProfileSchemaPayload['scalars']
 
-  async findById<Profile>(id: string): Promise<Profile> {
-    const profile = await this.prismaClient.profileSchema.findFirst({
-      where: { id }
-    })
+export class ProfileRepository implements Repository<Profile, QueryableFields> {
+  private readonly model: PrismaClient['profileSchema']
 
-    return (
-      profile
-        ? new Profile({
-            id: profile.id,
-            userId: profile.userId,
-            name: profile.name,
-            email: profile.email,
-            cellphone: profile.cellphone,
-            cpf: profile.cpf,
-            phone: profile.phone,
-            type: profile.type,
-            cnpj: profile?.cnpj ? profile.cnpj : undefined
-          })
-        : null
-    ) as Profile
+  constructor(private readonly prismaClient: PrismaClient) {
+    this.model = prismaClient.profileSchema
   }
 
-  async findByEmail(email: string) {
-    return await this.prismaClient.profileSchema.findFirst({
-      where: { email }
+  async findOnyBy(
+    fields: Partial<QueryableFields>
+  ): Promise<Profile | undefined> {
+    const profile = await this.model.findFirst({
+      where: fields
+    })
+    if (!profile) return
+
+    return Profile.createFrom({
+      ...profile,
+      cnpj: profile.cnpj ? profile.cnpj : undefined
     })
   }
 
@@ -50,13 +46,13 @@ export class ProfileRepository implements Repository {
     let profile = {} as unknown as ProfileSchema | null
 
     if (type === 'JURIDICAL') {
-      profile = await this.prismaClient.profileSchema.findFirst({
+      profile = await this.model.findFirst({
         where: { type: 'JURIDICAL', cnpj: value }
       })
     }
 
     if (type === 'INDIVIDUAL') {
-      profile = await this.prismaClient.profileSchema.findFirst({
+      profile = await this.model.findFirst({
         where: { type: 'INDIVIDUAL', cpf: value }
       })
     }
@@ -76,14 +72,19 @@ export class ProfileRepository implements Repository {
       : null
   }
 
-  async save<T>(entity: T): Promise<T> {
-    return (await this.prismaClient.profileSchema.create({
-      data: entity as ProfileSchema
-    })) as unknown as T
+  async save(entity: Profile): Promise<Profile> {
+    const profile = await this.model.create({
+      data: entity.serialize()
+    })
+
+    return Profile.createFrom({
+      ...profile,
+      cnpj: profile.cnpj ? profile.cnpj : undefined
+    })
   }
 
   async delete(profileId: string): Promise<void> {
-    await this.prismaClient.profileSchema.delete({
+    await this.model.delete({
       where: { id: profileId }
     })
   }
@@ -92,20 +93,14 @@ export class ProfileRepository implements Repository {
     profileId: string,
     entity: Partial<ProfileData>
   ): Promise<Profile> {
-    const profile = await this.prismaClient.profileSchema.update({
+    const profile = await this.model.update({
       data: entity,
       where: { id: profileId }
     })
-    return new Profile({
-      id: profile.id,
-      userId: profile.userId,
-      name: profile.name,
-      email: profile.email,
-      cellphone: profile.cellphone,
-      cpf: profile.cpf,
-      phone: profile.phone,
-      type: profile.type,
-      cnpj: profile?.cnpj ? profile.cnpj : undefined
+
+    return Profile.createFrom({
+      ...profile,
+      cnpj: profile.cnpj ? profile.cnpj : undefined
     })
   }
 }

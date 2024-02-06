@@ -14,7 +14,7 @@ export class UpdateProfile {
     profileId: string,
     data: UpdateProfileDTO
   ): Promise<Profile> {
-    const profile = await this.repository.findById<Profile>(profileId)
+    const profile = await this.repository.findOnyBy({ id: profileId })
     if (!profile) throw new EntityNotFound('Profile')
 
     if (userId !== profile.userId) {
@@ -22,7 +22,9 @@ export class UpdateProfile {
     }
 
     if (data.email && profile.email !== data.email) {
-      const emailAlreadyExists = await this.repository.findByEmail(data.email)
+      const emailAlreadyExists = await this.repository.findOnyBy({
+        email: data.email
+      })
       if (emailAlreadyExists) throw new NotAllowed('Email already exists')
     }
 

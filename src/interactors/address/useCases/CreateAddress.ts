@@ -8,12 +8,7 @@ export class CreateAddress {
   constructor(private readonly repository: AddressRepository) {}
 
   async execute(data: CreateAddressDTO): Promise<Address> {
-    const address = new Address(data as AddressData)
-
-    const addressCreated = await this.repository.save<AddressData>(
-      address.toJSON() as AddressData
-    )
-
-    return new Address(addressCreated)
+    const address = await this.repository.save(new Address(data as AddressData))
+    return address
   }
 }

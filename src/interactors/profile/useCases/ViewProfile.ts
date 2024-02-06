@@ -9,7 +9,7 @@ export class ViewProfile {
   constructor(private readonly repository: ProfileRepository) {}
 
   async execute(userId: string, profileId: string): Promise<Profile> {
-    const profile = await this.repository.findById<Profile>(profileId)
+    const profile = await this.repository.findOnyBy({ id: profileId })
     if (!profile) throw new EntityNotFound('Profile')
 
     if (profile.userId !== userId) {

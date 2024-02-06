@@ -43,7 +43,21 @@ export class Address {
     this.street = street
   }
 
-  toJSON(): any {
-    return { ...this }
+  static createFrom(data: AddressData): Address {
+    return new Address(data)
+  }
+
+  serialize() {
+    return {
+      id: this.id,
+      profileId: this.profileId,
+      cep: this.cep,
+      city: this.city,
+      complement: this.complement,
+      neighborhood: this.neighborhood,
+      number: this.number,
+      state: this.state,
+      street: this.street
+    }
   }
 }

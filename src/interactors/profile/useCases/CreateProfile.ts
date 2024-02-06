@@ -9,7 +9,9 @@ export class CreateProfile {
   constructor(private readonly repository: ProfileRepository) {}
 
   async execute(data: CreateProfileDTO): Promise<Profile> {
-    const emailAlreadyExists = await this.repository.findByEmail(data.email)
+    const emailAlreadyExists = await this.repository.findOnyBy({
+      email: data.email
+    })
     if (emailAlreadyExists) throw new NotAllowed('Email already exists')
 
     const profile = new Profile(data)
@@ -30,7 +32,7 @@ export class CreateProfile {
       if (documentAlreadyExists) throw new NotAllowed('CPF already exists')
     }
 
-    const profileCreated = await this.repository.save(profile.toJSON())
+    const profileCreated = await this.repository.save(profile)
     return profileCreated
   }
 }

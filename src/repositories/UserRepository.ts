@@ -1,26 +1,31 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type PrismaClient, type UserSchema } from '@prisma/client'
+import { type PrismaClient, type Prisma } from '@prisma/client'
 
 import { type Repository } from './Repository'
 
-export class UserRepository implements Repository {
-  constructor(private readonly prismaClient: PrismaClient) {}
+import { User } from '@/interactors/user/entity/User'
 
-  async findById<T>(id: string): Promise<T> {
-    return (await this.prismaClient.userSchema.findFirst({
-      where: { id }
-    })) as unknown as T
+type QueryableFields = Prisma.$UserSchemaPayload['scalars']
+export class UserRepository implements Repository<User, QueryableFields> {
+  private readonly model: PrismaClient['userSchema']
+
+  constructor(private readonly prismaClient: PrismaClient) {
+    this.model = prismaClient.userSchema
   }
 
-  async findByEmail(email: string) {
-    return await this.prismaClient.userSchema.findFirst({
-      where: { email }
+  async findOnyBy(fields: Partial<QueryableFields>): Promise<User | undefined> {
+    const user = await this.model.findFirst({
+      where: fields
     })
+    if (!user) return
+
+    return User.createFrom(user)
   }
 
-  async save<T>(entity: T): Promise<T> {
-    return (await this.prismaClient.userSchema.create({
-      data: entity as UserSchema
-    })) as unknown as T
+  async save(entity: User): Promise<User> {
+    const user = await this.model.create({
+      data: entity.serialize()
+    })
+
+    return User.createFrom(user)
   }
 }

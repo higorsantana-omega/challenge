@@ -1,49 +1,55 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type AddressSchema, type PrismaClient } from '@prisma/client'
+import { type Prisma, type PrismaClient } from '@prisma/client'
 
 import { type Repository } from './Repository'
 
 import { Address, type AddressData } from '@/interactors/address/entity/Address'
 
-export class AddressRepository implements Repository {
-  constructor(private readonly prismaClient: PrismaClient) {}
+type QueryableFields = Prisma.$AddressSchemaPayload['scalars']
 
-  async findById<T>(id: string): Promise<T> {
-    return (await this.prismaClient.addressSchema.findFirst({
-      where: { id }
-    })) as unknown as T
+export class AddressRepository implements Repository<Address, QueryableFields> {
+  private readonly model: PrismaClient['addressSchema']
+
+  constructor(private readonly prismaClient: PrismaClient) {
+    this.model = prismaClient.addressSchema
   }
 
-  async findByProfileId(profileId: string): Promise<Address | null> {
-    const address = await this.prismaClient.addressSchema.findFirst({
-      where: { profileId }
+  async findOnyBy(
+    fields: Partial<QueryableFields>
+  ): Promise<Address | undefined> {
+    const address = await this.model.findFirst({
+      where: fields
     })
-    return address ? new Address(address as AddressData) : null
+    if (!address) return
+
+    return Address.createFrom({
+      ...address,
+      complement: address.complement ? address.complement : undefined
+    })
   }
 
-  async save<T>(entity: T): Promise<T> {
-    return (await this.prismaClient.addressSchema.create({
-      data: entity as AddressSchema
-    })) as unknown as T
+  async save(entity: Address): Promise<Address> {
+    const address = await this.model.create({
+      data: entity.serialize()
+    })
+
+    return Address.createFrom({
+      ...address,
+      complement: address.complement ? address.complement : undefined
+    })
   }
 
   async update(
     addressId: string,
     entity: Partial<AddressData>
   ): Promise<Address> {
-    const address = await this.prismaClient.addressSchema.update({
+    const address = await this.model.update({
       data: entity,
       where: { id: addressId }
     })
-    return new Address({
-      id: address.id,
-      cep: address.cep,
-      city: address.city,
-      neighborhood: address.neighborhood,
-      number: address.number,
-      profileId: address.profileId,
-      state: address.state,
-      street: address.street,
+
+    return Address.createFrom({
+      ...address,
       complement: address.complement ? address.complement : undefined
     })
   }

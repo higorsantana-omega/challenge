@@ -8,7 +8,7 @@ export interface UserData {
 export type ShowUserDTO = Omit<UserData, 'password'>
 
 export class User {
-  private readonly id: string
+  private readonly id?: string
   private readonly name: string
   private readonly email: string
   private readonly password: string
@@ -21,7 +21,7 @@ export class User {
   }
 
   getId(): string {
-    return this.id
+    return this.id!
   }
 
   getName(): string {
@@ -34,5 +34,18 @@ export class User {
 
   getPassword(): string {
     return this.password
+  }
+
+  static createFrom(data: UserData): User {
+    return new User(data)
+  }
+
+  serialize() {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      password: this.password
+    }
   }
 }

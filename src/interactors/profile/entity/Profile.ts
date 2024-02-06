@@ -69,7 +69,21 @@ export class Profile {
     }
   }
 
-  toJSON(): any {
-    return { ...this }
+  static createFrom(data: ProfileData): Profile {
+    return new Profile(data)
+  }
+
+  serialize() {
+    return {
+      id: this.id,
+      userId: this.userId,
+      name: this.name,
+      email: this.email,
+      cellphone: this.cellphone,
+      phone: this.phone,
+      cnpj: this.cnpj,
+      cpf: this.cpf,
+      type: this.type
+    }
   }
 }
