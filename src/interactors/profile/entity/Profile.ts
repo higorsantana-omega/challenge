@@ -1,4 +1,4 @@
-import IncompleteRequest from 'src/errors/IncompleteRequest'
+import IncompleteRequest from '../../../errors/IncompleteRequest'
 
 export type ProfileType = 'INDIVIDUAL' | 'JURIDICAL'
 

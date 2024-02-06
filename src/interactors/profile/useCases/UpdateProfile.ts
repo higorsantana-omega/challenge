@@ -1,5 +1,4 @@
-import EntityNotFound from 'src/errors/EntityNotFound'
-
+import EntityNotFound from '../../../errors/EntityNotFound'
 import NotAllowed from '../../../errors/NotAllowed'
 import { type ProfileRepository } from '../../../repositories/ProfileRepository'
 import { type Profile, type ProfileData } from '../entity/Profile'
