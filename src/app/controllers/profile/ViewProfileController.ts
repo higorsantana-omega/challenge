@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { type Response, type Request, BaseController } from '../BaseController'
 
-export class ViewPrivateProfileController extends BaseController {
+export class ViewProfileController extends BaseController {
   protected expectedRequest = z.object({})
 
   protected async execute(
@@ -14,6 +14,8 @@ export class ViewPrivateProfileController extends BaseController {
       request.params.profileId
     )
 
-    return response.status(200).send({ profile })
+    const address = await this.interactors.address.viewByProfileId(profile.id!)
+
+    return response.status(200).send({ profile, address })
   }
 }

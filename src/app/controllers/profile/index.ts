@@ -1,7 +1,7 @@
 import { CreateProfileController } from './CreateProfileController'
 import { DeleteProfileController } from './DeleteProfileController'
 import { UpdateProfileController } from './UpdateProfileController'
-import { ViewPrivateProfileController } from './ViewPrivateProfileController'
+import { ViewProfileController } from './ViewProfileController'
 import type Route from '../Route'
 
 const profileRoutes: Route[] = [
@@ -13,7 +13,7 @@ const profileRoutes: Route[] = [
   {
     url: '/profile/:profileId',
     method: 'GET',
-    Controller: ViewPrivateProfileController
+    Controller: ViewProfileController
   },
   {
     url: '/profile/:profileId',

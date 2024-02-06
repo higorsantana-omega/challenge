@@ -17,8 +17,8 @@ export class AddressInteractor extends BaseInteractor<AddressRepository> {
     return await updateAddress.execute(addressId, data)
   }
 
-  async view(addressId: string): Promise<Address> {
+  async viewByProfileId(profileId: string): Promise<Address | null> {
     const viewAddress = new ViewAddress(this.repository)
-    return await viewAddress.execute(addressId)
+    return await viewAddress.execute(profileId)
   }
 }

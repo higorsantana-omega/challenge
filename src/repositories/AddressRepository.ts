@@ -16,6 +16,13 @@ export class AddressRepository implements Repository {
     })) as unknown as T
   }
 
+  async findByProfileId(profileId: string): Promise<Address | null> {
+    const address = await this.prismaClient.addressSchema.findFirst({
+      where: { profileId }
+    })
+    return address ? new Address(address as AddressData) : null
+  }
+
   async save<T>(entity: T): Promise<T> {
     return (await this.prismaClient.addressSchema.create({
       data: entity as AddressSchema
