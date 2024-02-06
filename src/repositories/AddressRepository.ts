@@ -39,7 +39,7 @@ export class AddressRepository implements Repository {
       profileId: address.profileId,
       state: address.state,
       street: address.street,
-      complement: address.complement
+      complement: address.complement ? address.complement : undefined
     })
   }
 }

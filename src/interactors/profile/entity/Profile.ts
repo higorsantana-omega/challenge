@@ -15,7 +15,7 @@ export interface ProfileData {
 }
 
 export class Profile {
-  private readonly id?: string
+  readonly id?: string
   readonly userId: string
   private readonly name: string
   readonly email: string

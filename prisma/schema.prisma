@@ -47,12 +47,12 @@ model ProfileSchema {
 }
 
 model AddressSchema {
-  id           String @id @default(uuid())
+  id           String  @id @default(uuid())
   profileId    String
   cep          String
   street       String
   number       String
-  complement   String
+  complement   String?
   city         String
   neighborhood String
   state        String
