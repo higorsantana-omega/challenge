@@ -9,7 +9,7 @@ export class UserRepository implements Repository<User, QueryableFields> {
   private readonly model: PrismaClient['userSchema']
 
   constructor(private readonly prismaClient: PrismaClient) {
-    this.model = prismaClient.userSchema
+    this.model = this.prismaClient.userSchema
   }
 
   async findOnyBy(fields: Partial<QueryableFields>): Promise<User | undefined> {

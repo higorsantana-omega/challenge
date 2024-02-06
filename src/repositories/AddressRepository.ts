@@ -11,7 +11,7 @@ export class AddressRepository implements Repository<Address, QueryableFields> {
   private readonly model: PrismaClient['addressSchema']
 
   constructor(private readonly prismaClient: PrismaClient) {
-    this.model = prismaClient.addressSchema
+    this.model = this.prismaClient.addressSchema
   }
 
   async findOnyBy(

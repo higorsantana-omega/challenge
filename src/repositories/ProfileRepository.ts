@@ -19,7 +19,7 @@ export class ProfileRepository implements Repository<Profile, QueryableFields> {
   private readonly model: PrismaClient['profileSchema']
 
   constructor(private readonly prismaClient: PrismaClient) {
-    this.model = prismaClient.profileSchema
+    this.model = this.prismaClient.profileSchema
   }
 
   async findOnyBy(
