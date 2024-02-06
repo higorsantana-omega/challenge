@@ -15,5 +15,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
+  // Graceful shutdown
   console.error(error)
 })
