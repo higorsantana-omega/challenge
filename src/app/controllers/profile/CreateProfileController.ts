@@ -15,15 +15,17 @@ export class CreateProfileController extends BaseController {
       cpf: z.string(),
       type: z.union([z.literal('JURIDICAL'), z.literal('INDIVIDUAL')])
     }),
-    address: z.object({
-      cep: z.string(),
-      street: z.string(),
-      number: z.string(),
-      city: z.string(),
-      neighborhood: z.string(),
-      complement: z.string().optional(),
-      state: z.string()
-    })
+    address: z
+      .object({
+        cep: z.string(),
+        street: z.string(),
+        number: z.string(),
+        city: z.string(),
+        neighborhood: z.string(),
+        complement: z.string().optional(),
+        state: z.string()
+      })
+      .optional()
   })
 
   protected async execute(
